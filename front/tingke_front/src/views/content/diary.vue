@@ -1,0 +1,287 @@
+<template>
+  <div class="warp">
+    <div class="timeline-box shadow">
+      <div class="timeline-main">
+        <div class="timeline-line"></div>
+        <div class="timeline-year" v-for="(data,index) in dataList" :key="index">
+
+          <h2><a class="yearToggle" @click="putIndex(index)">{{data.years}} 年 </a><i class="layui-icon layui-icon-radio"
+                                                                                     style="font-size: 25px"></i></h2>
+          <div class="timeline-month" v-if="index == showindex">
+            <ul>
+              <li v-for="month in data.children" v-bind:key="month">
+                <div class="h4 animated fadeInLeft">
+                  <p class="date">{{month.months}}</p>
+                </div>
+                <p class="dot-circle animated "><i class="fa fa-dot-circle-o"></i></p>
+                <router-link :to="{
+              path:'/showArticle',
+              query:{
+                  diaryId: month.diary.id
+              }}">
+                <div class="content animated fadeInRight">
+                  {{month.diary.title}}
+                </div>
+                </router-link>
+                <div class="clear"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>
+<script>
+  import diaryApi from '../../api/diary'
+
+  export default {
+    data () {
+      return {
+        checkYear: true,
+        dataList: [],
+        showindex: 0
+      }
+    },
+    created () {
+      this.selectDiaryVo()
+    },
+    methods: {
+
+      //
+      putIndex (index) {
+        this.showindex = index
+      },
+
+      //显示随记封装
+      selectDiaryVo () {
+        diaryApi.selectDiaryVo().then(res => {
+          if (res.success) {
+            this.dataList = res.queryResponseResultList.list
+          }
+        })
+      }
+    }
+
+  }
+</script>
+<style>
+  .warp {
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  .clear {
+    clear: both
+  }
+
+  .timeline-box {
+    background: #fff;
+    padding: 20px 8px;
+    position: relative;
+    opacity: 0.7;
+  }
+
+  .timeline-main {
+    position: relative;
+  }
+
+  .timeline-main > h1 {
+    font-size: 18px;
+    background: #fff;
+    z-index: 1;
+    position: relative;
+    color: #484348;
+    margin-left: 33%;
+    margin-left: -moz-calc(35% - 7px);
+    margin-left: -webkit-calc(35% - 7px);
+    margin-left: calc(35% - 7px)
+  }
+
+  .timeline-main > h1 > i {
+    padding-right: 10px;
+    font-size: 20px
+  }
+
+  .timeline-main > h1 > span {
+    display: none
+  }
+
+  .timeline-main h2,
+  .timeline-main h3 {
+    width: 31%;
+    text-align: right
+  }
+
+  .timeline-main h2,
+  .timeline-main h2 > a {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #6bc30d
+  }
+
+  .timeline-main h3,
+  .timeline-main h3 > a {
+    font-size: 14px;
+    margin: 2px 0;
+    color: #ff5722
+  }
+
+  .timeline-month > ul > li {
+    padding: 10px 0
+  }
+
+  .timeline-month > ul > li .h4 {
+    display: inline-block;
+    width: 31%;
+    text-align: right;
+    float: left
+  }
+
+  .date {
+    display: inline-block;
+    padding: 2px 5px;
+    color: #484348;
+    font-size: 15px;
+    margin-top: 5px
+  }
+
+  .dot-circle {
+    color: #484348;
+    width: 8%;
+    text-align: center;
+    font-size: 22px;
+    z-index: 1;
+    position: relative;
+    background: #fff;
+    float: left
+  }
+
+  .content {
+    max-width: 50%;
+    float: left;
+    padding: 20px;
+    margin-left: 10px;
+    position: relative;
+    z-index: 1;
+    background: #484348;
+    color: #fff
+  }
+
+  .content img {
+    width: 100%
+  }
+
+  .content::before {
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    height: 0;
+    width: 0;
+    content: '';
+    border: 10px solid rgba(255, 255, 255, 0);
+    border-top: 6px solid rgba(255, 255, 255, 0);
+    border-bottom: 6px solid rgba(255, 255, 255, 0);
+    border-right-color: #484348
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 35%;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #484348;
+    z-index: 0
+  }
+
+  .timeline-year {
+    margin: 10px 0
+  }
+
+  @media (min-width: 768px) {
+    .timeline-box {
+      margin-top: 30px;
+      background: #fff;
+      padding: 40px 15px;
+      position: relative;
+    }
+
+    .timeline-main > h1 {
+      font-size: 26px;
+      margin-left: 16%;
+      margin-left: -moz-calc(18% - 13px);
+      margin-left: -webkit-calc(18% - 13px);
+      margin-left: calc(18% - 13px)
+    }
+
+    .timeline-main > h1 > i {
+      font-size: 30px
+    }
+
+    .timeline-main > h1 > span {
+      display: inline
+    }
+
+    .timeline-main h2,
+    .timeline-main h3 {
+      width: 16%
+    }
+
+    .timeline-main h2,
+    .timeline-main h2 > a {
+      font-size: 24px
+    }
+
+    .timeline-main h3,
+    .timeline-main h3 > a {
+      font-size: 20px
+    }
+
+    .timeline-month > ul > li .h4 {
+      width: 16%
+    }
+
+    .dot-circle {
+      width: 4%;
+      font-size: 22px
+    }
+
+    .content {
+      max-width: 70%
+    }
+
+    .timeline-line {
+      left: 18%
+    }
+  }
+
+  @media (min-width: 992px) {
+    .timeline-main > h1 {
+      font-size: 34px;
+      background: #fff;
+      z-index: 1;
+      position: relative;
+      color: #484348;
+      margin-left: 17%;
+      margin-left: -moz-calc(18% - 16px);
+      margin-left: -webkit-calc(18% - 16px);
+      margin-left: calc(18% - 16px)
+    }
+
+    .timeline-main > h1 > i {
+      font-size: 36px
+    }
+
+    .timeline-main h2,
+    .timeline-main h2 > a {
+      font-size: 30px
+    }
+
+    .timeline-main h3,
+    .timeline-main h3 > a {
+      font-size: 24px
+    }
+  }
+</style>

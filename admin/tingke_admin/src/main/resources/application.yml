@@ -1,0 +1,51 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: tingke-service
+  profiles:
+    active: dev
+  datasource: # mysql数据库连接
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tingke_blog?serverTimezone=GMT%2B8&characterEncoding=utf-8  #设置编码，不然通过中文查询会出错
+    username: root
+    password: 57328242
+  redis:
+    database: 0 #数据库
+    host: 192.168.235.128 #ip
+    port: 6379 #端口
+    timeout: 5000 #超时时间（毫秒）
+    jedis:
+      pool:
+        max-wait: 1000 #最大等待时间
+        min-idle: 1 #最小空闲时间
+        max-idle: 10 #最大空闲数量
+        max-active: 4 #最大连接数
+
+mybatis-plus:  #mybatis日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/tingke/admin/mapper/xml/*.xml #配置让maven识别xml文件
+
+
+aliyun: #阿里云配置信息
+  send:
+    accessKeyId:         #自己accessKeyId
+    accessKeySecret:          #自己accessKeySecret
+    signName:    #签名名称
+    verifyCodeTemplate:    #模板名称
+  oss:
+    file:
+      endpoint: 
+      accessId: 
+      accessKey: 
+      bucket: 
+
+send:
+  email:
+    qq:
+      smtpHost: 
+      from: 
+      personalName: 
+      checkCode: 
+

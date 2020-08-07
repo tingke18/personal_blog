@@ -1,0 +1,5 @@
+admin\tingke_admin  后端服务
+
+front\tingke_front 前端前台
+
+front\tingke-manage-system   前端后台
